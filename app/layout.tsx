@@ -28,12 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="th">
-      <body
-        className={`${srisakdi.variable} ${dancingScript.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html
+      lang="th"
+      className={`${srisakdi.variable} ${dancingScript.variable}`}
+    >
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
