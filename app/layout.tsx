@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { Montserrat, Srisakdi } from 'next/font/google';
+import { Dancing_Script, Srisakdi } from 'next/font/google';
 import './globals.css';
 
-const montserrat = Montserrat({
-  variable: '--font-montserrat',
+const dancingScript = Dancing_Script({
+  variable: '--font-dancing-script',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <body
-        className={`${srisakdi.variable} ${montserrat.variable} antialiased`}
+        className={`${srisakdi.variable} ${dancingScript.variable} antialiased`}
       >
         {children}
       </body>
