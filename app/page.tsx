@@ -197,32 +197,13 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-5 px-5 py-5 sm:px-8">
-          <div className="flex items-center gap-3">
-            <span className="size-2.5 rotate-45 bg-accent" aria-hidden="true" />
-            <div>
-              <p className="text-[0.7rem] font-semibold tracking-[0.24em] text-muted-foreground">
-                DIVIDEND / TH
-              </p>
-              <p className="mt-0.5 text-lg font-semibold tracking-tight">
-                เครื่องคิดเงินปันผลสุทธิ
-              </p>
-            </div>
-          </div>
-          <p className="hidden text-sm text-muted-foreground sm:block">
-            เครื่องมือวางแผนรายได้จากพอร์ต
-          </p>
-        </div>
-      </header>
-
-      <main className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-12">
+      <main className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-16">
         <div className="mb-8 grid items-end gap-5 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.52fr)]">
           <div>
             <p className="mb-3 text-xs font-semibold tracking-[0.22em] text-accent-foreground">
               DIVIDEND INCOME PLANNER
             </p>
-            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-medium leading-[1.08] tracking-[-0.045em]">
+            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-light leading-[1.14] tracking-[-0.025em]">
               ปันผลเท่านี้
               <br />
               เหลือใช้จริงเท่าไร
@@ -429,10 +410,6 @@ export default function Home() {
           </a>
         </aside>
       </main>
-
-      <footer className="border-t border-border bg-card py-6 text-center text-sm text-muted-foreground">
-        คำนวณเพื่อช่วยวางแผน ไม่ใช่คำแนะนำด้านการลงทุนหรือภาษี
-      </footer>
     </div>
   );
 }

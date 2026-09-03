@@ -2,31 +2,13 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
-@font-face {
-  font-family: 'KodchiangUPC';
-  src: url('/fonts/kodchiang-upc-regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0E00-0E7F;
-}
-
-@font-face {
-  font-family: 'KodchiangUPC';
-  src: url('/fonts/kodchiang-upc-bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0E00-0E7F;
-}
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'KodchiangUPC', var(--font-anuphan);
-  --font-heading: 'KodchiangUPC', var(--font-anuphan);
+  --font-sans: var(--font-noto-sans-thai);
+  --font-heading: var(--font-noto-sans-thai);
   --font-numbers: var(--font-anuphan);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
