@@ -4,19 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-
-const comparisonPortfolios = Array.from(
-  { length: 10 },
-  (_, index) => (index + 1) * 2_000_000,
-);
 
 const moneyFormatter = new Intl.NumberFormat('th-TH', {
   maximumFractionDigits: 0,
@@ -208,22 +195,6 @@ export default function Home() {
     return () => lifecycle.abort();
   }, []);
 
-  const comparisonRows = useMemo(() => {
-    const yieldValue = parseNumber(dividendYield);
-    const taxValue = parseNumber(taxRate);
-
-    return comparisonPortfolios.map((portfolioValue) => {
-      const grossAnnual = portfolioValue * (yieldValue / 100);
-      const netAnnual = grossAnnual * (1 - taxValue / 100);
-
-      return {
-        portfolioValue,
-        netAnnual,
-        netMonthly: netAnnual / 12,
-      };
-    });
-  }, [dividendYield, taxRate]);
-
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <header className="border-b border-border bg-card">
@@ -292,7 +263,7 @@ export default function Home() {
                     inputMode="numeric"
                     autoComplete="off"
                     aria-describedby="portfolio-help"
-                    className="h-14 rounded-xl border bg-background px-4 pr-16 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
+                    className="font-numbers h-14 rounded-xl border bg-background px-4 pr-16 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                   />
                   <span
                     className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-base font-medium text-muted-foreground"
@@ -330,7 +301,7 @@ export default function Home() {
                       inputMode="decimal"
                       autoComplete="off"
                       aria-describedby="yield-help"
-                      className="h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
+                      className="font-numbers h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                     />
                     <span
                       className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
@@ -365,7 +336,7 @@ export default function Home() {
                       inputMode="decimal"
                       autoComplete="off"
                       aria-describedby="tax-help"
-                      className="h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
+                      className="font-numbers h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                     />
                     <span
                       className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
@@ -403,7 +374,7 @@ export default function Home() {
                 เงินปันผลสุทธิต่อเดือน
               </p>
               <p className="mt-3 flex flex-wrap items-baseline gap-x-3 font-medium leading-none tabular-nums">
-                <span className="text-[clamp(3.4rem,9vw,5.75rem)] tracking-[-0.055em]">
+                <span className="font-numbers text-[clamp(3.4rem,9vw,5.75rem)] tracking-[-0.055em]">
                   {formatMoney(result.netMonthly)}
                 </span>
                 <span className="text-xl font-normal text-result-muted sm:text-2xl">
@@ -411,114 +382,35 @@ export default function Home() {
                 </span>
               </p>
               <p className="mt-5 text-lg font-normal tabular-nums text-result-muted sm:text-xl">
-                หรือ {formatMoney(result.netAnnual)} บาทต่อปี
+                หรือ{' '}
+                <span className="font-numbers">
+                  {formatMoney(result.netAnnual)}
+                </span>{' '}
+                บาทต่อปี
               </p>
             </div>
 
             <dl className="mt-5 grid divide-y divide-white/15 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               <div className="py-4 sm:px-5 sm:py-2 sm:first:pl-0">
                 <dt className="text-sm text-result-muted">ก่อนหักภาษี/ปี</dt>
-                <dd className="mt-1 text-xl font-medium tabular-nums">
+                <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {formatMoney(result.grossAnnual)}
                 </dd>
               </div>
               <div className="py-4 sm:px-5 sm:py-2">
                 <dt className="text-sm text-result-muted">ภาษีที่หัก/ปี</dt>
-                <dd className="mt-1 text-xl font-medium tabular-nums">
+                <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {formatMoney(result.taxAnnual)}
                 </dd>
               </div>
               <div className="py-4 sm:px-5 sm:py-2 sm:last:pr-0">
                 <dt className="text-sm text-result-muted">ปันผลสุทธิ</dt>
-                <dd className="mt-1 text-xl font-medium tabular-nums">
+                <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {decimalFormatter.format(result.netYield)}%
                 </dd>
               </div>
             </dl>
           </output>
-        </section>
-
-        <section
-          className="mt-8 rounded-[1.25rem] border border-border bg-card p-5 shadow-[0_12px_40px_rgb(28_26_21/0.04)] sm:mt-10 sm:p-8"
-          aria-labelledby="comparison-heading"
-        >
-          <div className="mb-6 flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
-            <h2
-              id="comparison-heading"
-              className="text-2xl font-semibold tracking-tight"
-            >
-              ตารางเทียบเงินปันผลสุทธิ
-            </h2>
-            <p className="text-sm text-muted-foreground sm:text-base">
-              คำนวณด้วยปันผล {dividendYield || '0'}% และภาษี {taxRate || '0'}%
-            </p>
-          </div>
-
-          <div className="border-t border-border sm:hidden">
-            {comparisonRows.map((row) => (
-              <dl
-                key={row.portfolioValue}
-                className="border-b border-border py-4"
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <dt className="text-sm font-medium text-muted-foreground">
-                    พอร์ต
-                  </dt>
-                  <dd className="text-xl font-semibold tabular-nums">
-                    {formatMoney(row.portfolioValue)} บาท
-                  </dd>
-                </div>
-                <div className="mt-2 flex items-baseline justify-between gap-3">
-                  <dt className="text-sm text-muted-foreground">สุทธิ/เดือน</dt>
-                  <dd className="text-xl font-semibold tabular-nums text-accent-foreground">
-                    {formatMoney(row.netMonthly)} บาท
-                  </dd>
-                </div>
-                <div className="mt-1 flex items-baseline justify-between gap-3">
-                  <dt className="text-sm text-muted-foreground">สุทธิ/ปี</dt>
-                  <dd className="text-base font-medium tabular-nums">
-                    {formatMoney(row.netAnnual)} บาท
-                  </dd>
-                </div>
-              </dl>
-            ))}
-          </div>
-
-          <div className="hidden sm:block">
-            <Table className="text-lg">
-              <TableHeader>
-                <TableRow className="border-y bg-muted/60 hover:bg-muted/60">
-                  <TableHead className="h-auto whitespace-normal px-4 py-3 text-sm font-semibold tracking-wide text-muted-foreground">
-                    มูลค่าพอร์ต
-                  </TableHead>
-                  <TableHead className="h-auto whitespace-normal px-4 py-3 text-right text-sm font-semibold tracking-wide text-muted-foreground">
-                    สุทธิต่อปี
-                  </TableHead>
-                  <TableHead className="h-auto whitespace-normal px-4 py-3 text-right text-sm font-semibold tracking-wide text-muted-foreground">
-                    สุทธิต่อเดือน
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {comparisonRows.map((row) => (
-                  <TableRow
-                    key={row.portfolioValue}
-                    className="border-b text-card-foreground hover:bg-muted/40"
-                  >
-                    <TableCell className="px-4 py-4 font-medium tabular-nums">
-                      {formatMoney(row.portfolioValue)}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-right tabular-nums">
-                      {formatMoney(row.netAnnual)}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-right font-semibold tabular-nums text-accent-foreground">
-                      {formatMoney(row.netMonthly)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
         </section>
 
         <aside className="mt-8 rounded-xl border border-note-border bg-note p-5 text-base leading-relaxed text-note-foreground sm:p-6">
