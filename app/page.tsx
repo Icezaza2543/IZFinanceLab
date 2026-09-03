@@ -203,13 +203,13 @@ export default function Home() {
             <p className="font-numbers mb-3 text-xs font-semibold tracking-[0.22em] text-accent-foreground">
               DIVIDEND INCOME PLANNER
             </p>
-            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-normal leading-[1.25] tracking-normal">
+            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-bold leading-[1.25] tracking-normal">
               ปันผลเท่านี้
               <br />
               เหลือใช้จริงเท่าไร
             </h1>
           </div>
-          <p className="max-w-md border-l border-accent pl-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="max-w-md border-l border-accent pl-5 text-base font-bold leading-relaxed text-muted-foreground sm:text-lg">
             ปรับมูลค่าพอร์ต อัตราปันผล และภาษี เพื่อดูรายรับสุทธิต่อเดือนทันที
           </p>
         </div>
@@ -221,7 +221,7 @@ export default function Home() {
           <div className="rounded-[1.25rem] border border-border bg-card p-6 shadow-[0_12px_40px_rgb(28_26_21/0.05)] sm:p-8">
             <h2
               id="calculator-heading"
-              className="mb-7 text-xl font-semibold tracking-tight text-card-foreground"
+              className="mb-7 text-xl font-bold tracking-tight text-card-foreground"
             >
               ข้อมูลสำหรับคำนวณ
             </h2>
@@ -230,7 +230,7 @@ export default function Home() {
               <div>
                 <label
                   htmlFor="portfolio"
-                  className="mb-2 block text-base font-medium"
+                  className="mb-2 block text-base font-bold"
                 >
                   มูลค่าพอร์ตลงทุน
                 </label>
@@ -247,7 +247,7 @@ export default function Home() {
                     className="font-numbers h-14 rounded-xl border bg-background px-4 pr-16 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                   />
                   <span
-                    className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-base font-medium text-muted-foreground"
+                    className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-base font-bold text-muted-foreground"
                     aria-hidden="true"
                   >
                     บาท
@@ -255,9 +255,11 @@ export default function Home() {
                 </div>
                 <p
                   id="portfolio-help"
-                  className="mt-2 text-sm text-muted-foreground"
+                  className="mt-2 text-sm font-bold text-muted-foreground"
                 >
-                  เช่น <span className="font-numbers">2,000,000</span> บาท
+                  เช่น{' '}
+                  <span className="font-numbers font-normal">2,000,000</span>{' '}
+                  บาท
                 </p>
               </div>
 
@@ -265,7 +267,7 @@ export default function Home() {
                 <div>
                   <label
                     htmlFor="dividend-yield"
-                    className="mb-2 block text-base font-medium"
+                    className="mb-2 block text-base font-bold"
                   >
                     ปันผลต่อปี
                   </label>
@@ -293,16 +295,17 @@ export default function Home() {
                   </div>
                   <p
                     id="yield-help"
-                    className="mt-2 text-sm text-muted-foreground"
+                    className="mt-2 text-sm font-bold text-muted-foreground"
                   >
-                    ตารางตัวอย่างใช้ <span className="font-numbers">5%</span>
+                    ตารางตัวอย่างใช้{' '}
+                    <span className="font-numbers font-normal">5%</span>
                   </p>
                 </div>
 
                 <div>
                   <label
                     htmlFor="tax-rate"
-                    className="mb-2 block text-base font-medium"
+                    className="mb-2 block text-base font-bold"
                   >
                     ภาษีที่หัก
                   </label>
@@ -328,9 +331,10 @@ export default function Home() {
                   </div>
                   <p
                     id="tax-help"
-                    className="mt-2 text-sm text-muted-foreground"
+                    className="mt-2 text-sm font-bold text-muted-foreground"
                   >
-                    ตั้งต้นที่หัก ณ ที่จ่าย <span className="font-numbers">10%</span>
+                    ตั้งต้นที่หัก ณ ที่จ่าย{' '}
+                    <span className="font-numbers font-normal">10%</span>
                   </p>
                 </div>
               </div>
@@ -346,25 +350,25 @@ export default function Home() {
               className="absolute inset-x-7 top-0 h-px bg-accent"
               aria-hidden="true"
             />
-            <div className="text-xs font-semibold tracking-[0.2em] text-result-muted">
+            <div className="text-xs font-bold tracking-[0.2em] text-result-muted">
               หลังหักภาษีแล้ว
             </div>
 
             <div className="mt-8 border-b border-white/15 pb-8">
-              <p className="text-base font-normal text-result-muted sm:text-lg">
+              <p className="text-base font-bold text-result-muted sm:text-lg">
                 เงินปันผลสุทธิต่อเดือน
               </p>
               <p className="mt-3 flex flex-wrap items-baseline gap-x-3 font-medium leading-none tabular-nums">
                 <span className="font-numbers text-[clamp(3.4rem,9vw,5.75rem)] tracking-[-0.055em]">
                   {formatMoney(result.netMonthly)}
                 </span>
-                <span className="text-xl font-normal text-result-muted sm:text-2xl">
+                <span className="text-xl font-bold text-result-muted sm:text-2xl">
                   บาท
                 </span>
               </p>
-              <p className="mt-5 text-lg font-normal tabular-nums text-result-muted sm:text-xl">
+              <p className="mt-5 text-lg font-bold tabular-nums text-result-muted sm:text-xl">
                 หรือ{' '}
-                <span className="font-numbers">
+                <span className="font-numbers font-normal">
                   {formatMoney(result.netAnnual)}
                 </span>{' '}
                 บาทต่อปี
@@ -373,19 +377,23 @@ export default function Home() {
 
             <dl className="mt-5 grid divide-y divide-white/15 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               <div className="py-4 sm:px-5 sm:py-2 sm:first:pl-0">
-                <dt className="text-sm text-result-muted">ก่อนหักภาษี/ปี</dt>
+                <dt className="text-sm font-bold text-result-muted">
+                  ก่อนหักภาษี/ปี
+                </dt>
                 <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {formatMoney(result.grossAnnual)}
                 </dd>
               </div>
               <div className="py-4 sm:px-5 sm:py-2">
-                <dt className="text-sm text-result-muted">ภาษีที่หัก/ปี</dt>
+                <dt className="text-sm font-bold text-result-muted">
+                  ภาษีที่หัก/ปี
+                </dt>
                 <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {formatMoney(result.taxAnnual)}
                 </dd>
               </div>
               <div className="py-4 sm:px-5 sm:py-2 sm:last:pr-0">
-                <dt className="text-sm text-result-muted">ปันผลสุทธิ</dt>
+                <dt className="text-sm font-bold text-result-muted">ปันผลสุทธิ</dt>
                 <dd className="font-numbers mt-1 text-xl font-medium tabular-nums">
                   {decimalFormatter.format(result.netYield)}%
                 </dd>
@@ -395,8 +403,8 @@ export default function Home() {
         </section>
 
         <aside className="mt-8 rounded-xl border border-note-border bg-note p-5 text-base leading-relaxed text-note-foreground sm:p-6">
-          <p className="font-semibold">หมายเหตุสำคัญ</p>
-          <p className="mt-1">
+          <p className="font-bold">หมายเหตุสำคัญ</p>
+          <p className="mt-1 font-bold">
             ตัวเลขนี้เป็นการประมาณการจากอัตราที่กรอก ไม่รวมเครดิตภาษี เงินปันผลจากต่างประเทศ
             ค่าธรรมเนียม หรือผลจากการยื่นภาษีปลายปี
           </p>
@@ -404,7 +412,7 @@ export default function Home() {
             href="https://www.rd.go.th/60116.html"
             target="_blank"
             rel="noreferrer"
-            className="mt-3 inline-flex min-h-12 items-center font-medium text-link underline decoration-1 underline-offset-4 transition-colors duration-200 hover:text-link-hover focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            className="mt-3 inline-flex min-h-12 items-center font-bold text-link underline decoration-1 underline-offset-4 transition-colors duration-200 hover:text-link-hover focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
           >
             ดูข้อมูลภาษีเงินปันผลจากกรมสรรพากร
           </a>
