@@ -200,10 +200,10 @@ export default function Home() {
       <main className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 sm:py-16">
         <div className="mb-8 grid items-end gap-5 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.52fr)]">
           <div>
-            <p className="mb-3 text-xs font-semibold tracking-[0.22em] text-accent-foreground">
+            <p className="font-numbers mb-3 text-xs font-semibold tracking-[0.22em] text-accent-foreground">
               DIVIDEND INCOME PLANNER
             </p>
-            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-light leading-[1.14] tracking-[-0.025em]">
+            <h1 className="max-w-3xl text-[clamp(2.35rem,6vw,4.75rem)] font-normal leading-[1.25] tracking-normal">
               ปันผลเท่านี้
               <br />
               เหลือใช้จริงเท่าไร
@@ -257,7 +257,7 @@ export default function Home() {
                   id="portfolio-help"
                   className="mt-2 text-sm text-muted-foreground"
                 >
-                  เช่น 2,000,000 บาท
+                  เช่น <span className="font-numbers">2,000,000</span> บาท
                 </p>
               </div>
 
@@ -285,7 +285,7 @@ export default function Home() {
                       className="font-numbers h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                     />
                     <span
-                      className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
+                      className="font-numbers pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
                       aria-hidden="true"
                     >
                       %
@@ -295,7 +295,7 @@ export default function Home() {
                     id="yield-help"
                     className="mt-2 text-sm text-muted-foreground"
                   >
-                    ตารางตัวอย่างใช้ 5%
+                    ตารางตัวอย่างใช้ <span className="font-numbers">5%</span>
                   </p>
                 </div>
 
@@ -320,7 +320,7 @@ export default function Home() {
                       className="font-numbers h-14 rounded-xl border bg-background px-4 pr-12 text-2xl font-medium tabular-nums shadow-none md:text-2xl"
                     />
                     <span
-                      className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
+                      className="font-numbers pointer-events-none absolute inset-y-0 right-4 flex items-center text-xl font-medium text-muted-foreground"
                       aria-hidden="true"
                     >
                       %
@@ -330,7 +330,7 @@ export default function Home() {
                     id="tax-help"
                     className="mt-2 text-sm text-muted-foreground"
                   >
-                    ตั้งต้นที่หัก ณ ที่จ่าย 10%
+                    ตั้งต้นที่หัก ณ ที่จ่าย <span className="font-numbers">10%</span>
                   </p>
                 </div>
               </div>

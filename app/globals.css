@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-noto-sans-thai);
-  --font-heading: var(--font-noto-sans-thai);
-  --font-numbers: var(--font-anuphan);
+  --font-sans: var(--font-srisakdi);
+  --font-heading: var(--font-srisakdi);
+  --font-numbers: var(--font-montserrat);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-card: var(--card);

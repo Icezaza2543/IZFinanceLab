@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
-import { Anuphan, Noto_Sans_Thai } from 'next/font/google';
+import { Montserrat, Srisakdi } from 'next/font/google';
 import './globals.css';
 
-const anuphan = Anuphan({
-  variable: '--font-anuphan',
-  subsets: ['thai'],
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
-const notoSansThai = Noto_Sans_Thai({
-  variable: '--font-noto-sans-thai',
+const srisakdi = Srisakdi({
+  variable: '--font-srisakdi',
   subsets: ['thai'],
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '700'],
   display: 'swap',
 });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="th">
       <body
-        className={`${notoSansThai.variable} ${anuphan.variable} antialiased`}
+        className={`${srisakdi.variable} ${montserrat.variable} antialiased`}
       >
         {children}
       </body>
