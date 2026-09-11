@@ -1,25 +1,32 @@
 import type { Metadata } from 'next';
-import { Dancing_Script, Srisakdi } from 'next/font/google';
+import { Cormorant_Garamond, Inter, Noto_Sans_Thai } from 'next/font/google';
 import './globals.css';
 
-const dancingScript = Dancing_Script({
-  variable: '--font-dancing-script',
+const notoSansThai = Noto_Sans_Thai({
+  variable: '--font-noto-thai',
+  subsets: ['thai'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: '--font-cormorant',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
-const srisakdi = Srisakdi({
-  variable: '--font-srisakdi',
-  subsets: ['thai'],
-  weight: ['400', '700'],
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'เครื่องคิดเงินปันผลสุทธิ',
+  title: 'IZFinanceLab · Luxury Investment Atelier & Financial Archive',
   description:
-    'คำนวณเงินปันผลต่อปีและต่อเดือนหลังหักภาษี ตัวอักษรใหญ่ อ่านง่าย ใช้งานได้บนมือถือ',
+    'ศูนย์รวมเครื่องคิดเลขการเงินและการลงทุน 9 หมวดหมู่หลัก พร้อมคลังคำศัพท์และหลักการประเมินมูลค่าระดับพรีเมียม',
 };
 
 export default function RootLayout({
@@ -30,9 +37,11 @@ export default function RootLayout({
   return (
     <html
       lang="th"
-      className={`${srisakdi.variable} ${dancingScript.variable}`}
+      className={`${notoSansThai.variable} ${cormorant.variable} ${inter.variable}`}
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-ui antialiased bg-canvas text-primary-text min-h-dvh selection:bg-muted-gold selection:text-white">
+        {children}
+      </body>
     </html>
   );
 }

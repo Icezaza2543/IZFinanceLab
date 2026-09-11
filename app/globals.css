@@ -5,121 +5,142 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-srisakdi);
-  --font-heading: var(--font-srisakdi);
-  --font-numbers: var(--font-dancing-script);
+  --color-background: var(--canvas);
+  --color-foreground: var(--primary-text);
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-deep-forest: var(--deep-forest);
+  --color-dark-raised: var(--dark-raised);
+  --color-primary-text: var(--primary-text);
+  --color-secondary-text: var(--secondary-text);
+  --color-muted-gold: var(--muted-gold);
+  --color-soft-gold: var(--soft-gold);
+  --color-gold-border: var(--gold-border);
+
+  --font-ui: var(--font-inter), var(--font-noto-thai), system-ui, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-heading: var(--font-noto-thai), sans-serif;
+  --font-numeric: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-noto-thai), var(--font-inter), system-ui, sans-serif;
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-destructive: var(--destructive);
-  --color-result: var(--result);
-  --color-result-foreground: var(--result-foreground);
-  --color-result-muted: var(--result-muted);
-  --color-note: var(--note);
-  --color-note-border: var(--note-border);
-  --color-note-foreground: var(--note-foreground);
-  --color-link: var(--link);
-  --color-link-hover: var(--link-hover);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.35);
-  --radius-2xl: calc(var(--radius) * 1.75);
-  --radius-3xl: calc(var(--radius) * 2.2);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--primary-text);
+  --color-secondary: var(--surface-subtle);
+  --color-secondary-foreground: var(--primary-text);
+  --color-muted: var(--surface-subtle);
+  --color-muted-foreground: var(--secondary-text);
+  --color-accent: var(--muted-gold);
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #a82a20;
+  --color-border: var(--gold-border);
+  --color-input: var(--gold-border);
+  --color-ring: var(--muted-gold);
+  --color-result: var(--deep-forest);
+  --color-result-foreground: #fbfaf7;
+  --color-result-muted: #c8ccc6;
+  --color-link: #7f632f;
+  --color-link-hover: #53401b;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
 }
 
 :root {
-  --background: #f5f3ee;
-  --foreground: #181916;
-  --card: #fbfaf7;
-  --card-foreground: #181916;
-  --primary: #171a18;
+  /* Luxury VTuber Editorial Tokens */
+  --canvas: #f5f3ee;
+  --surface: #fbfaf7;
+  --surface-subtle: #eeeae1;
+  --deep-forest: #1a221f;
+  --dark-raised: #262d2a;
+  --primary-text: #181a18;
+  --secondary-text: #68655d;
+  --muted-gold: #a28143;
+  --soft-gold: #e9dec7;
+  --gold-border: #d5d0c5;
+
+  /* Semantic UI Tokens */
+  --primary: #1a221f;
   --primary-foreground: #fbfaf7;
-  --secondary: #e9e5dc;
-  --secondary-foreground: #292b27;
-  --muted: #ece8df;
-  --muted-foreground: #5f615a;
-  --accent: #a9803f;
-  --accent-foreground: #685023;
-  --destructive: #b42318;
-  --border: #d6d0c5;
-  --input: #a29b8e;
-  --ring: #84652f;
-  --result: #18221f;
-  --result-foreground: #fbfaf7;
-  --result-muted: #c8ccc6;
-  --note: #ece8df;
-  --note-border: #cfc8ba;
-  --note-foreground: #45463f;
-  --link: #5f4822;
-  --link-hover: #2e2515;
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: #111310;
-  --foreground: #f5f3ee;
-  --card: #191c18;
-  --card-foreground: #f5f3ee;
-  --primary: #0c0e0c;
-  --primary-foreground: #fbfaf7;
-  --secondary: #262a25;
-  --secondary-foreground: #f5f3ee;
-  --muted: #292d28;
-  --muted-foreground: #c5c3bb;
-  --accent: #c6a66e;
-  --accent-foreground: #ecd7b0;
-  --destructive: #ff8a80;
-  --border: #474941;
-  --input: #72756c;
-  --ring: #d0b47d;
-  --result: #0d1512;
-  --result-foreground: #fbfaf7;
-  --result-muted: #bec4bd;
-  --note: #242720;
-  --note-border: #55574e;
-  --note-foreground: #d7d5cd;
-  --link: #d1b57e;
-  --link-hover: #ecd7b0;
+  --canvas: #121514;
+  --surface: #1a1e1c;
+  --surface-subtle: #242926;
+  --deep-forest: #0d1210;
+  --dark-raised: #1f2522;
+  --primary-text: #f5f3ee;
+  --secondary-text: #b5b1a7;
+  --muted-gold: #bfa05e;
+  --soft-gold: #423824;
+  --gold-border: #3b423e;
+
+  --primary: #f5f3ee;
+  --primary-foreground: #121514;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
 
   html {
-    @apply font-sans;
+    font-family: var(--font-inter), var(--font-noto-thai), system-ui, sans-serif;
     font-size: 100%;
     scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--canvas);
+    color: var(--primary-text);
     min-width: 320px;
     font-size: 1rem;
-    line-height: 1.6;
-    font-feature-settings:
-      'kern' 1,
-      'liga' 1;
+    line-height: 1.7;
   }
 
   ::selection {
-    background: var(--accent);
-    color: var(--foreground);
+    background: var(--muted-gold);
+    color: #ffffff;
   }
+}
+
+/* Typography Utilities */
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.font-numeric,
+.font-numbers {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
+
+.font-ui {
+  font-family: var(--font-inter), var(--font-noto-thai), system-ui, sans-serif;
+}
+
+.font-thai-heading {
+  font-family: var(--font-noto-thai), sans-serif;
+}
+
+/* Fine Editorial Rules & Accents */
+.editorial-gold-line {
+  background: linear-gradient(90deg, var(--muted-gold) 0%, rgba(162, 129, 67, 0.2) 100%);
+}
+
+.editorial-divider {
+  border-color: var(--gold-border);
 }
 
 @media (prefers-reduced-motion: reduce) {
