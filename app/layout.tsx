@@ -39,9 +39,20 @@ export default function RootLayout({
       lang="th"
       className={`${notoSansThai.variable} ${cormorant.variable} ${inter.variable}`}
     >
-      <body className="font-ui antialiased bg-canvas text-primary-text min-h-dvh selection:bg-muted-gold selection:text-white">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        className={`${notoSansThai.className} antialiased bg-canvas text-primary-text min-h-dvh selection:bg-muted-gold selection:text-white font-sans`}
+      >
         {children}
       </body>
     </html>
   );
 }
+
