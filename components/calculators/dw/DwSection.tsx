@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { CalculatorCard } from '@/components/shared/CalculatorCard';
 import { ResultDisplay } from '@/components/shared/ResultDisplay';
 import { FormulaAccordion } from '@/components/shared/FormulaAccordion';
+import { CHART_COLORS, TimeSeriesChart } from '@/components/shared/TimeSeriesChart';
 import { Input } from '@/components/ui/input';
 import { formatMoney, formatPercent, parseNumber, formatNumberInput, formatDecimalInput } from '@/lib/formatters';
 import {
@@ -188,6 +189,15 @@ export function DwSection({ onOpenGlossary }: DwSectionProps) {
               { label: `ราคา DW หลังผ่าน ${holdingDays} วัน`, value: decayResult.estimatedDwPriceAfterDays, unit: 'บาท', highlight: true },
               { label: 'ต้นทุนเวลาเฉลี่ย/วัน', value: formatMoney(decayResult.dailyCostAmount), unit: 'บาท' },
             ]}
+          />
+        }
+        chartNode={
+          <TimeSeriesChart
+            title="มูลค่า DW ที่ถือ ลดลงตามเวลา"
+            axis="days"
+            data={decayResult.dailyData.map((p) => ({ x: p.day, value: p.value }))}
+            series={[{ key: 'value', label: 'มูลค่า DW ที่ถือ', color: CHART_COLORS[0] }]}
+            derived={[{ label: 'มูลค่าที่หายไปสะสม', value: (p) => decayResult.currentTotalValue - p.value }]}
           />
         }
         formulaNode={

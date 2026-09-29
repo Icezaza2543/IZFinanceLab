@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { CalculatorCard } from '@/components/shared/CalculatorCard';
 import { ResultDisplay } from '@/components/shared/ResultDisplay';
 import { FormulaAccordion } from '@/components/shared/FormulaAccordion';
+import { CHART_COLORS, TimeSeriesChart } from '@/components/shared/TimeSeriesChart';
 import { Input } from '@/components/ui/input';
 import { formatMoney, formatPercent, parseNumber, formatNumberInput, formatDecimalInput } from '@/lib/formatters';
 import {
@@ -244,6 +245,18 @@ export function InvestmentPrinciplesSection({ onOpenGlossary }: InvestmentPrinci
               { label: 'อัตราเงินเฟ้อ', value: `${inflationRate}%`, unit: '/ปี' },
               { label: 'อำนาจซื้อที่ลดลง', value: `-${formatPercent(inflationResult.purchasingPowerLossPercent)}%`, highlight: true },
             ]}
+          />
+        }
+        chartNode={
+          <TimeSeriesChart
+            title="อำนาจซื้อเทียบเงินวันนี้"
+            axis="years"
+            data={inflationResult.yearlyData.map((p) => ({ x: p.year, invested: p.invested, cash: p.cash }))}
+            series={[
+              { key: 'invested', label: `ลงทุนที่ ${nominalReturn || 0}%/ปี`, color: CHART_COLORS[0] },
+              { key: 'cash', label: 'ถือเงินสดเฉยๆ', color: CHART_COLORS[1] },
+            ]}
+            note={`หักผลของเงินเฟ้อ ${inflationRate || 0}%/ปี แล้ว`}
           />
         }
         formulaNode={

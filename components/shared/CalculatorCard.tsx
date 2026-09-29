@@ -12,6 +12,7 @@ interface CalculatorCardProps {
   onOpenHelp?: () => void;
   children: React.ReactNode;
   resultNode: React.ReactNode;
+  chartNode?: React.ReactNode;
   formulaNode?: React.ReactNode;
 }
 
@@ -24,6 +25,7 @@ export function CalculatorCard({
   onOpenHelp,
   children,
   resultNode,
+  chartNode,
   formulaNode,
 }: CalculatorCardProps) {
   return (
@@ -80,6 +82,8 @@ export function CalculatorCard({
         <div className="space-y-5">{children}</div>
         <div className="flex flex-col justify-between">{resultNode}</div>
       </div>
+
+      {chartNode && <div className="mt-6">{chartNode}</div>}
 
       {formulaNode && <div className="mt-5">{formulaNode}</div>}
     </article>

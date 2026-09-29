@@ -62,6 +62,11 @@ export interface CompoundInterestResult {
     interestEarned: number;
     totalBalance: number;
   }>;
+  monthlyData: Array<{
+    month: number; // เดือนที่ (0 = เริ่มต้น)
+    principal: number;
+    balance: number;
+  }>;
 }
 
 export function calculateCompoundInterest(input: CompoundInterestInput): CompoundInterestResult {
@@ -74,11 +79,13 @@ export function calculateCompoundInterest(input: CompoundInterestInput): Compoun
   let currentBalance = p;
   let totalContributed = p;
   const yearlyBreakdown: CompoundInterestResult['yearlyBreakdown'] = [];
+  const monthlyData: CompoundInterestResult['monthlyData'] = [{ month: 0, principal: Math.round(p), balance: Math.round(p) }];
 
   for (let m = 1; m <= totalMonths; m++) {
     const interest = currentBalance * r;
     currentBalance += interest + pmt;
     totalContributed += pmt;
+    monthlyData.push({ month: m, principal: Math.round(totalContributed), balance: Math.round(currentBalance) });
 
     if (m % 12 === 0) {
       const year = m / 12;
@@ -96,6 +103,7 @@ export function calculateCompoundInterest(input: CompoundInterestInput): Compoun
     totalInterest: Math.round(Math.max(0, currentBalance - totalContributed)),
     futureValue: Math.round(currentBalance),
     yearlyBreakdown,
+    monthlyData,
   };
 }
 
@@ -118,6 +126,9 @@ export interface RetirementResult {
   totalNestEggRequired: number;
   gapAmount: number;
   requiredMonthlySavings: number;
+  retireAge: number;
+  // มูลค่าพอร์ต ณ สิ้นแต่ละปีของอายุ หากออมตามแผน แล้วถอนใช้หลังเกษียณ
+  projection: Array<{ age: number; balance: number }>;
 }
 
 export function calculateRetirement(input: RetirementInput): RetirementResult {
@@ -160,6 +171,20 @@ export function calculateRetirement(input: RetirementInput): RetirementResult {
     requiredMonthlySavings = gap / totalMonths;
   }
 
+  // ช่วงสะสม: เงินเก็บเดิมโตแบบรายปี + เงินออมรายเดือนทบต้นรายเดือน (สมมติฐานเดียวกับด้านบน)
+  // ช่วงถอนใช้: พอร์ตโต postReturn และถอนค่าใช้จ่ายรายปีที่ปรับเงินเฟ้อทุกสิ้นปี
+  const projection: RetirementResult['projection'] = [];
+  for (let y = 0; y <= yearsToRetire; y++) {
+    const savingsFv = monthlyR > 0 ? (Math.pow(1 + monthlyR, y * 12) - 1) / monthlyR : y * 12;
+    const balance = currentSavings * Math.pow(1 + postReturn, y) + requiredMonthlySavings * savingsFv;
+    projection.push({ age: currentAge + y, balance: Math.round(balance) });
+  }
+  let balance = projection[projection.length - 1].balance;
+  for (let k = 1; k <= yearsInRetire; k++) {
+    balance = balance * (1 + postReturn) - futureAnnualExpense * Math.pow(1 + inflation, k);
+    projection.push({ age: retireAge + k, balance: Math.round(Math.max(0, balance)) });
+  }
+
   return {
     yearsToRetire,
     yearsInRetirement: yearsInRetire,
@@ -168,6 +193,8 @@ export function calculateRetirement(input: RetirementInput): RetirementResult {
     totalNestEggRequired: Math.round(totalNestEgg),
     gapAmount: Math.round(gap),
     requiredMonthlySavings: Math.round(requiredMonthlySavings),
+    retireAge,
+    projection,
   };
 }
 
@@ -192,6 +219,8 @@ export interface DebtPayoffResult {
     totalInterestPaid: number;
   };
   interestSavedWithAvalanche: number;
+  // ยอดหนี้คงเหลือรวม ณ สิ้นแต่ละเดือน (เดือนที่ 0 = ยอดเริ่มต้น)
+  balanceTimeline: Array<{ month: number; avalanche: number; snowball: number }>;
 }
 
 export function calculateDebtPayoff(debts: DebtItem[], extraMonthlyPayment: number): DebtPayoffResult {
@@ -205,12 +234,23 @@ export function calculateDebtPayoff(debts: DebtItem[], extraMonthlyPayment: numb
   // จำลอง Snowball (ยอดหนี้น้อยสุดก่อน)
   const simSnowball = simulateDebtStrategy(activeDebts, extra, 'snowball');
 
+  const timelineLength = Math.max(simAvalanche.balances.length, simSnowball.balances.length);
+  const balanceTimeline: DebtPayoffResult['balanceTimeline'] = [];
+  for (let m = 0; m < timelineLength; m++) {
+    balanceTimeline.push({
+      month: m,
+      avalanche: Math.round(simAvalanche.balances[m] ?? 0),
+      snowball: Math.round(simSnowball.balances[m] ?? 0),
+    });
+  }
+
   return {
     totalDebt: Math.round(totalDebt),
     totalMinPayment: Math.round(totalMinPayment),
-    avalanche: simAvalanche,
-    snowball: simSnowball,
+    avalanche: { monthsToPayoff: simAvalanche.monthsToPayoff, totalInterestPaid: simAvalanche.totalInterestPaid },
+    snowball: { monthsToPayoff: simSnowball.monthsToPayoff, totalInterestPaid: simSnowball.totalInterestPaid },
     interestSavedWithAvalanche: Math.max(0, Math.round(simSnowball.totalInterestPaid - simAvalanche.totalInterestPaid)),
+    balanceTimeline,
   };
 }
 
@@ -218,7 +258,7 @@ function simulateDebtStrategy(
   debts: DebtItem[],
   extraMonthly: number,
   strategy: 'avalanche' | 'snowball',
-): { monthsToPayoff: number; totalInterestPaid: number } {
+): { monthsToPayoff: number; totalInterestPaid: number; balances: number[] } {
   let list = debts.map((d) => ({
     ...d,
     currentBalance: d.balance,
@@ -227,6 +267,8 @@ function simulateDebtStrategy(
   let months = 0;
   let totalInterest = 0;
   const maxMonths = 360; // 30 years cap
+  const totalBalance = () => list.reduce((sum, d) => sum + Math.max(0, d.currentBalance), 0);
+  const balances = [totalBalance()];
 
   while (list.some((d) => d.currentBalance > 0) && months < maxMonths) {
     months++;
@@ -263,10 +305,13 @@ function simulateDebtStrategy(
         availableExtra -= extraPay;
       }
     }
+
+    balances.push(totalBalance());
   }
 
   return {
     monthsToPayoff: months,
     totalInterestPaid: Math.round(totalInterest),
+    balances,
   };
 }

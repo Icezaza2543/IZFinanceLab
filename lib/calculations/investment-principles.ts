@@ -75,6 +75,8 @@ export interface InflationResult {
   exactFisherRealReturnPercent: number;
   futurePurchasingPowerValue: number; // อำนาจซื้อเทียบเท่าในอนาคต
   purchasingPowerLossPercent: number;
+  // อำนาจซื้อ (เทียบเงินวันนี้) ณ สิ้นแต่ละปี: ถือเงินสดเฉยๆ vs ลงทุนตามผลตอบแทนที่ระบุ
+  yearlyData: Array<{ year: number; cash: number; invested: number }>;
 }
 
 export function calculateInflation(input: InflationInput): InflationResult {
@@ -93,11 +95,21 @@ export function calculateInflation(input: InflationInput): InflationResult {
   const futurePower = cash / Math.pow(1 + inflationDec, years);
   const lossPct = cash > 0 ? ((cash - futurePower) / cash) * 100 : 0;
 
+  const yearlyData: InflationResult['yearlyData'] = [];
+  for (let y = 0; y <= Math.min(100, Math.round(years)); y++) {
+    yearlyData.push({
+      year: y,
+      cash: Math.round(futurePurchasingPowerValue(cash, inflationDec, y)),
+      invested: Math.round(cash * Math.pow((1 + nominalDec) / (1 + inflationDec), y)),
+    });
+  }
+
   return {
     approxRealReturnPercent: approxReal,
     exactFisherRealReturnPercent: exactReal,
     futurePurchasingPowerValue: Math.round(futurePurchasingPowerValue(cash, inflationDec, years)),
     purchasingPowerLossPercent: lossPct,
+    yearlyData,
   };
 }
 

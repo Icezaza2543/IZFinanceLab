@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { CalculatorCard } from '@/components/shared/CalculatorCard';
 import { ResultDisplay } from '@/components/shared/ResultDisplay';
 import { FormulaAccordion } from '@/components/shared/FormulaAccordion';
+import { CHART_COLORS, TimeSeriesChart } from '@/components/shared/TimeSeriesChart';
 import { Input } from '@/components/ui/input';
 import { formatMoney, formatPercent, parseNumber, formatNumberInput, formatDecimalInput } from '@/lib/formatters';
 import {
@@ -206,6 +207,19 @@ export function FinancialPlanningSection({ onOpenGlossary }: FinancialPlanningSe
             ]}
           />
         }
+        chartNode={
+          <TimeSeriesChart
+            title="การเติบโตของเงินออมตามช่วงเวลา"
+            axis="months"
+            data={compoundResult.monthlyData.map((p) => ({ x: p.month, balance: p.balance, principal: p.principal }))}
+            series={[
+              { key: 'balance', label: 'มูลค่าเงินออม', color: CHART_COLORS[1] },
+              { key: 'principal', label: 'เงินต้นสะสม', color: CHART_COLORS[0] },
+            ]}
+            derived={[{ label: 'ดอกเบี้ยสะสม', value: (p) => p.balance - p.principal, signed: true }]}
+            note="ส่วนต่างระหว่างสองเส้น = ดอกเบี้ยทบต้นสะสม"
+          />
+        }
         formulaNode={
           <FormulaAccordion
             formulaTitle="ดอกเบี้ยทบต้น (Future Value)"
@@ -319,6 +333,16 @@ export function FinancialPlanningSection({ onOpenGlossary }: FinancialPlanningSe
             ]}
           />
         }
+        chartNode={
+          <TimeSeriesChart
+            title="เงินในพอร์ตเกษียณตามอายุ (หากออมตามแผน)"
+            axis="age"
+            data={retireResult.projection.map((p) => ({ x: p.age, balance: p.balance }))}
+            series={[{ key: 'balance', label: 'เงินในพอร์ต', color: CHART_COLORS[0] }]}
+            referenceX={{ x: retireResult.retireAge, label: 'เกษียณ' }}
+            note={`ออมเพิ่มเดือนละ ${formatMoney(retireResult.requiredMonthlySavings)} บาทจนเกษียณ จากนั้นถอนใช้ปีละ ${formatMoney(retireResult.futureAnnualExpenseAtRetire)} บาท (ปรับเพิ่มตามเงินเฟ้อทุกปี)`}
+          />
+        }
         formulaNode={
           <FormulaAccordion
             formulaTitle="เงินก้อนเกษียณอายุ"
@@ -413,6 +437,18 @@ export function FinancialPlanningSection({ onOpenGlossary }: FinancialPlanningSe
               { label: 'Snowball (ด/บ รวม)', value: formatMoney(debtResult.snowball.totalInterestPaid), unit: 'บาท' },
               { label: 'จ่ายขั้นต่ำรวม/เดือน', value: formatMoney(debtResult.totalMinPayment), unit: 'บาท' },
             ]}
+          />
+        }
+        chartNode={
+          <TimeSeriesChart
+            title="ยอดหนี้คงเหลือตามช่วงเวลา"
+            axis="months"
+            data={debtResult.balanceTimeline.map((p) => ({ x: p.month, avalanche: p.avalanche, snowball: p.snowball }))}
+            series={[
+              { key: 'avalanche', label: 'Avalanche (ดอกเบี้ยสูงก่อน)', color: CHART_COLORS[0] },
+              { key: 'snowball', label: 'Snowball (ยอดน้อยก่อน)', color: CHART_COLORS[1] },
+            ]}
+            note="เส้นที่ลงถึง 0 ก่อน = ปลดหนี้ได้เร็วกว่า"
           />
         }
         formulaNode={

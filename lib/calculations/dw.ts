@@ -92,6 +92,8 @@ export interface DwTimeDecayResult {
   totalLossAmount: number;
   totalLossPercent: number;
   dailyCostAmount: number;
+  // มูลค่ารวมของ DW ที่ถือ ณ สิ้นแต่ละวัน (วันที่ 0 = วันนี้)
+  dailyData: Array<{ day: number; value: number }>;
 }
 
 export function calculateDwTimeDecay(input: DwTimeDecayInput): DwTimeDecayResult {
@@ -108,11 +110,17 @@ export function calculateDwTimeDecay(input: DwTimeDecayInput): DwTimeDecayResult
   const lossPct = initialTotal > 0 ? (loss / initialTotal) * 100 : 0;
   const dailyCost = loss / days;
 
+  const dailyData: DwTimeDecayResult['dailyData'] = [];
+  for (let d = 0; d <= Math.min(730, Math.round(days)); d++) {
+    dailyData.push({ day: d, value: Math.round(initialTotal * Math.pow(1 - decayRate, d)) });
+  }
+
   return {
     currentTotalValue: Math.round(initialTotal),
     estimatedDwPriceAfterDays: Number(priceAfter.toFixed(3)),
     totalLossAmount: Math.round(loss),
     totalLossPercent: Number(lossPct.toFixed(1)),
     dailyCostAmount: Math.round(dailyCost),
+    dailyData,
   };
 }

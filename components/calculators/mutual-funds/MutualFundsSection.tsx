@@ -4,32 +4,20 @@ import React, { useState } from 'react';
 import { CalculatorCard } from '@/components/shared/CalculatorCard';
 import { ResultDisplay } from '@/components/shared/ResultDisplay';
 import { FormulaAccordion } from '@/components/shared/FormulaAccordion';
+import { CHART_COLORS, TimeSeriesChart } from '@/components/shared/TimeSeriesChart';
 import { Input } from '@/components/ui/input';
-import { formatMoney, formatPercent, parseNumber, formatNumberInput, formatDecimalInput } from '@/lib/formatters';
+import { formatMoney, parseNumber, formatNumberInput, formatDecimalInput } from '@/lib/formatters';
 import {
-  calculateDcaFund,
   calculateExpenseRatioImpact,
   calculateTaxFund,
 } from '@/lib/calculations/mutual-funds';
+import { DcaCalculator } from './DcaCalculator';
 
 interface MutualFundsSectionProps {
   onOpenGlossary?: (termId: string) => void;
 }
 
 export function MutualFundsSection({ onOpenGlossary }: MutualFundsSectionProps) {
-  // 1. DCA Fund State
-  const [dcaMonthly, setDcaMonthly] = useState('5,000');
-  const [dcaReturn, setDcaReturn] = useState('8.0');
-  const [dcaYears, setDcaYears] = useState('10');
-  const [dcaInitial, setDcaInitial] = useState('0');
-
-  const dcaResult = calculateDcaFund({
-    monthlyInvestment: parseNumber(dcaMonthly),
-    expectedAnnualReturnPercent: parseNumber(dcaReturn),
-    investmentYears: parseNumber(dcaYears),
-    initialLumpSum: parseNumber(dcaInitial),
-  });
-
   // 2. Expense Ratio State
   const [feePrincipal, setFeePrincipal] = useState('100,000');
   const [feeMonthly, setFeeMonthly] = useState('5,000');
@@ -63,95 +51,7 @@ export function MutualFundsSection({ onOpenGlossary }: MutualFundsSectionProps) 
   return (
     <div className="space-y-8">
       {/* 1. DCA Fund Simulator */}
-      <CalculatorCard
-        id="calc-dca-simulator"
-        title="เครื่องจำลองการลงทุนแบบ DCA (Dollar-Cost Averaging)"
-        subtitle="จำลองการออมรายเดือนในกองทุนรวม พร้อมดูการเติบโตและสัดส่วนกำไรสะสม"
-        badge="วินัยการลงทุน"
-        onReset={() => {
-          setDcaMonthly('5,000');
-          setDcaReturn('8.0');
-          setDcaYears('10');
-          setDcaInitial('0');
-        }}
-        onOpenHelp={() => onOpenGlossary?.('dca')}
-        resultNode={
-          <ResultDisplay
-            badgeText="ผลลัพธ์การออม DCA"
-            primaryLabel="มูลค่าพอร์ตปลายทาง"
-            primaryValue={formatMoney(dcaResult.portfolioValue)}
-            primaryUnit="บาท"
-            secondaryNote={`เงินต้นรวม ${formatMoney(dcaResult.totalInvestedCapital)} บาท | กำไรสุทธิ ${formatMoney(dcaResult.totalProfit)} บาท (+${dcaResult.profitPercentage}%)`}
-            metrics={[
-              { label: 'เงินต้นสะสม', value: formatMoney(dcaResult.totalInvestedCapital), unit: 'บาท' },
-              { label: 'กำไรสะสม', value: formatMoney(dcaResult.totalProfit), unit: 'บาท', highlight: true },
-              { label: 'สัดส่วนกำไร', value: `+${dcaResult.profitPercentage}%` },
-            ]}
-          />
-        }
-        formulaNode={
-          <FormulaAccordion
-            formulaTitle="Dollar-Cost Averaging (DCA)"
-            formula="FV_dca = PMT × [ ((1 + r/12)^(12×t) - 1) / (r/12) ]"
-            explanation="การลงทุนถัวเฉลี่ยรายเดือนช่วยลดความเสี่ยงจากการจับจังหวะตลาดผิดเวลา ทำให้ได้หน่วยลงทุนมากขึ้นในจังหวะที่ตลาดปรับฐาน และสะสมความมั่งคั่งอย่างต่อเนื่อง"
-            tips="DCA มีประสิทธิภาพสูงสุดกับกองทุนดัชนีที่มีการกระจายความเสี่ยงสูง เช่น กองทุนหุ้นทั่วโลก หรือ S&P 500"
-            relatedTermId="dca"
-            onOpenGlossary={onOpenGlossary}
-          />
-        }
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-bold mb-1">ลงทุนสม่ำเสมอต่อเดือน</label>
-            <div className="relative">
-              <Input
-                value={dcaMonthly}
-                onChange={(e) => setDcaMonthly(formatNumberInput(e.target.value))}
-                className="font-numbers text-xl h-11 pr-12"
-              />
-              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-bold">บาท</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold mb-1">ผลตอบแทนคาดหวังเฉลี่ย (%/ปี)</label>
-            <div className="relative">
-              <Input
-                value={dcaReturn}
-                onChange={(e) => setDcaReturn(formatDecimalInput(e.target.value))}
-                className="font-numbers text-xl h-11 pr-8"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-bold">%</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-bold mb-1">ระยะเวลาลงทุน (ปี)</label>
-            <div className="relative">
-              <Input
-                value={dcaYears}
-                onChange={(e) => setDcaYears(formatNumberInput(e.target.value))}
-                className="font-numbers text-xl h-11 pr-8"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-bold">ปี</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold mb-1">เงินก้อนแรกเริ่ม (ถ้ามี)</label>
-            <div className="relative">
-              <Input
-                value={dcaInitial}
-                onChange={(e) => setDcaInitial(formatNumberInput(e.target.value))}
-                className="font-numbers text-xl h-11 pr-12"
-              />
-              <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-bold">บาท</span>
-            </div>
-          </div>
-        </div>
-      </CalculatorCard>
+      <DcaCalculator onOpenGlossary={onOpenGlossary} />
 
       {/* 2. Fund Expense Ratio Impact Calculator */}
       <CalculatorCard
@@ -180,6 +80,19 @@ export function MutualFundsSection({ onOpenGlossary }: MutualFundsSectionProps) 
               { label: `กองทุนค่าธรรมเนียมสูง (${highFee}%)`, value: formatMoney(expenseResult.highFeeFinalValue), unit: 'บาท' },
               { label: 'ความต่างของมูลค่า', value: `-${expenseResult.wealthLostPercentage}%`, highlight: true },
             ]}
+          />
+        }
+        chartNode={
+          <TimeSeriesChart
+            title="มูลค่าพอร์ต: กองทุนค่าธรรมเนียมต่ำ vs สูง"
+            axis="months"
+            data={expenseResult.monthlyData.map((p) => ({ x: p.month, lowFee: p.lowFee, highFee: p.highFee }))}
+            series={[
+              { key: 'lowFee', label: `ค่าธรรมเนียม ${lowFee}%`, color: CHART_COLORS[0] },
+              { key: 'highFee', label: `ค่าธรรมเนียม ${highFee}%`, color: CHART_COLORS[1] },
+            ]}
+            derived={[{ label: 'ส่วนต่างที่เสียไป', value: (p) => p.lowFee - p.highFee }]}
+            note="ช่องว่างระหว่างสองเส้น = เงินที่เสียไปกับค่าธรรมเนียม"
           />
         }
         formulaNode={

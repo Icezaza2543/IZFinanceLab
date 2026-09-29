@@ -1,56 +1,107 @@
 // 1. DCA Fund Simulator (การลงทุนแบบถัวเฉลี่ยต้นทุน)
+export type DcaFrequency = 'monthly' | 'yearly';
+export type DcaDurationUnit = 'years' | 'months';
+export type DcaTiming = 'start' | 'end';
+
+export const DCA_MAX_MONTHS = 60 * 12;
+
 export interface DcaFundInput {
-  monthlyInvestment: number; // เงินลงทุนต่อเดือน
-  expectedAnnualReturnPercent: number; // ผลตอบแทนคาดหวังเฉลี่ยต่อปี %
-  investmentYears: number; // ระยะเวลาลงทุน (ปี)
   initialLumpSum?: number; // เงินก้อนเริ่มต้น (ถ้ามี)
+  contributionAmount: number; // เงินลงทุนต่องวด
+  contributionFrequency: DcaFrequency; // ลงทุนทุกเดือน หรือ ทุกปี
+  expectedAnnualReturnPercent: number; // ผลตอบแทนคาดหวังเฉลี่ยต่อปี %
+  duration: number; // ระยะเวลาลงทุน
+  durationUnit: DcaDurationUnit; // หน่วยของระยะเวลา (ปี / เดือน)
+  contributionTiming?: DcaTiming; // ลงทุนต้นงวด หรือ ปลายงวด (ค่าเริ่มต้น: ปลายงวด)
+  annualStepUpPercent?: number; // เพิ่มเงินลงทุนต่องวดทุกปี %
+  inflationPercent?: number; // เงินเฟ้อต่อปี % (ใช้คิดมูลค่าเทียบเงินวันนี้)
+}
+
+export interface DcaDataPoint {
+  month: number; // เดือนที่ (0 = วันเริ่มต้น)
+  capital: number; // เงินต้นสะสม
+  profit: number; // กำไรสะสม (ติดลบได้)
+  value: number; // มูลค่าพอร์ต
 }
 
 export interface DcaFundResult {
+  totalMonths: number;
   totalInvestedCapital: number;
   totalProfit: number;
   portfolioValue: number;
   profitPercentage: number;
-  yearlyData: Array<{
-    year: number;
-    capital: number;
-    value: number;
-  }>;
+  valueMultiple: number; // มูลค่าพอร์ต / เงินต้น
+  realPortfolioValue: number; // มูลค่าพอร์ตเทียบเงินวันนี้ (หักเงินเฟ้อ)
+  contributionCount: number;
+  lastContribution: number; // เงินลงทุนงวดสุดท้าย (หลังปรับเพิ่มรายปี)
+  monthlyData: DcaDataPoint[]; // จุดข้อมูลทุกเดือน (รวมเดือนที่ 0)
 }
 
 export function calculateDcaFund(input: DcaFundInput): DcaFundResult {
-  const pmt = Math.max(0, input.monthlyInvestment);
-  const r = Math.max(0, input.expectedAnnualReturnPercent) / 100 / 12;
-  const years = Math.max(1, Math.min(40, input.investmentYears));
   const initial = Math.max(0, input.initialLumpSum || 0);
+  const baseAmount = Math.max(0, input.contributionAmount);
+  const r = Math.max(-99, Math.min(100, input.expectedAnnualReturnPercent)) / 100 / 12;
+  const stepUp = Math.max(0, Math.min(100, input.annualStepUpPercent || 0)) / 100;
+  const inflation = Math.max(0, Math.min(50, input.inflationPercent || 0)) / 100;
+  const timing = input.contributionTiming ?? 'end';
 
-  const totalMonths = years * 12;
-  let currentValue = initial;
-  let totalCapital = initial;
-  const yearlyData: DcaFundResult['yearlyData'] = [];
+  const rawMonths = input.durationUnit === 'years' ? input.duration * 12 : input.duration;
+  const totalMonths = Math.max(1, Math.min(DCA_MAX_MONTHS, Math.round(rawMonths) || 1));
+
+  let value = initial;
+  let capital = initial;
+  let contributionCount = 0;
+  let lastContribution = 0;
+
+  const toPoint = (month: number): DcaDataPoint => ({
+    month,
+    capital: Math.round(capital),
+    profit: Math.round(value - capital),
+    value: Math.round(value),
+  });
+
+  const monthlyData: DcaDataPoint[] = [toPoint(0)];
 
   for (let m = 1; m <= totalMonths; m++) {
-    currentValue = currentValue * (1 + r) + pmt;
-    totalCapital += pmt;
+    const yearIndex = Math.floor((m - 1) / 12);
+    const amount = baseAmount * Math.pow(1 + stepUp, yearIndex);
 
-    if (m % 12 === 0) {
-      yearlyData.push({
-        year: m / 12,
-        capital: Math.round(totalCapital),
-        value: Math.round(currentValue),
-      });
+    // ลงทุนรายปี: ต้นงวด = เดือนแรกของปี, ปลายงวด = เดือนสุดท้ายของปี
+    const investsThisMonth =
+      input.contributionFrequency === 'monthly' ||
+      (timing === 'start' ? (m - 1) % 12 === 0 : m % 12 === 0);
+    const contribution = investsThisMonth ? amount : 0;
+
+    if (timing === 'start') {
+      value = (value + contribution) * (1 + r);
+    } else {
+      value = value * (1 + r) + contribution;
     }
+    capital += contribution;
+
+    if (contribution > 0) {
+      contributionCount++;
+      lastContribution = contribution;
+    }
+
+    monthlyData.push(toPoint(m));
   }
 
-  const profit = Math.max(0, currentValue - totalCapital);
-  const profitPct = totalCapital > 0 ? (profit / totalCapital) * 100 : 0;
+  const profit = value - capital;
+  const profitPct = capital > 0 ? (profit / capital) * 100 : 0;
+  const realValue = value / Math.pow(1 + inflation, totalMonths / 12);
 
   return {
-    totalInvestedCapital: Math.round(totalCapital),
+    totalMonths,
+    totalInvestedCapital: Math.round(capital),
     totalProfit: Math.round(profit),
-    portfolioValue: Math.round(currentValue),
+    portfolioValue: Math.round(value),
     profitPercentage: Number(profitPct.toFixed(1)),
-    yearlyData,
+    valueMultiple: capital > 0 ? Number((value / capital).toFixed(2)) : 0,
+    realPortfolioValue: Math.round(realValue),
+    contributionCount,
+    lastContribution: Math.round(lastContribution),
+    monthlyData,
   };
 }
 
@@ -69,6 +120,8 @@ export interface ExpenseRatioResult {
   highFeeFinalValue: number;
   wealthLostToFees: number; // ส่วนต่างของเงินที่หายไปกับค่าธรรมเนียม
   wealthLostPercentage: number;
+  // มูลค่าพอร์ตแต่ละเดือนของทั้งสองกองทุน (เดือนที่ 0 = เริ่มต้น)
+  monthlyData: Array<{ month: number; capital: number; lowFee: number; highFee: number }>;
 }
 
 export function calculateExpenseRatioImpact(input: ExpenseRatioInput): ExpenseRatioResult {
@@ -82,8 +135,17 @@ export function calculateExpenseRatioImpact(input: ExpenseRatioInput): ExpenseRa
   const lowNetReturn = Math.max(0, gross - lowFee);
   const highNetReturn = Math.max(0, gross - highFee);
 
-  const lowSim = simulateGrowth(p, pmt, lowNetReturn, years);
-  const highSim = simulateGrowth(p, pmt, highNetReturn, years);
+  const lowPath = simulateGrowth(p, pmt, lowNetReturn, years);
+  const highPath = simulateGrowth(p, pmt, highNetReturn, years);
+  const lowSim = lowPath[lowPath.length - 1];
+  const highSim = highPath[highPath.length - 1];
+
+  const monthlyData = lowPath.map((low, month) => ({
+    month,
+    capital: Math.round(p + pmt * month),
+    lowFee: Math.round(low),
+    highFee: Math.round(highPath[month]),
+  }));
 
   const lost = Math.max(0, lowSim - highSim);
   const lostPct = lowSim > 0 ? (lost / lowSim) * 100 : 0;
@@ -93,17 +155,21 @@ export function calculateExpenseRatioImpact(input: ExpenseRatioInput): ExpenseRa
     highFeeFinalValue: Math.round(highSim),
     wealthLostToFees: Math.round(lost),
     wealthLostPercentage: Number(lostPct.toFixed(1)),
+    monthlyData,
   };
 }
 
-function simulateGrowth(principal: number, monthly: number, annualRatePct: number, years: number): number {
+// คืนมูลค่าพอร์ตทุกเดือน (index 0 = เงินต้นเริ่มต้น)
+function simulateGrowth(principal: number, monthly: number, annualRatePct: number, years: number): number[] {
   const r = annualRatePct / 100 / 12;
-  const months = years * 12;
+  const months = Math.round(years * 12);
   let val = principal;
+  const path = [val];
   for (let i = 0; i < months; i++) {
     val = val * (1 + r) + monthly;
+    path.push(val);
   }
-  return val;
+  return path;
 }
 
 // 3. Tax Deductible Funds (Thai ESG, RMF, SSF)

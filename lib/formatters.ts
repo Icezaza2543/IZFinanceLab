@@ -17,6 +17,25 @@ export const percentFormatter = new Intl.NumberFormat('th-TH', {
   maximumFractionDigits: 2,
 });
 
+export const compactFormatter = new Intl.NumberFormat('th-TH', {
+  notation: 'compact',
+  maximumFractionDigits: 2,
+});
+
+export function formatCompactMoney(value: number): string {
+  if (!Number.isFinite(value)) return '0';
+  return compactFormatter.format(value);
+}
+
+// แปลงจำนวนเดือนเป็นข้อความ เช่น 30 → "2 ปี 6 เดือน"
+export function formatDuration(totalMonths: number): string {
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  if (years === 0) return `${months} เดือน`;
+  if (months === 0) return `${years} ปี`;
+  return `${years} ปี ${months} เดือน`;
+}
+
 export function parseNumber(value: string | number | undefined | null): number {
   if (value === undefined || value === null) return 0;
   if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
