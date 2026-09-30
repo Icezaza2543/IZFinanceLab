@@ -61,19 +61,9 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
                 priority
               />
 
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-display text-xl sm:text-2xl font-semibold tracking-[0.14em] text-[#181A18] block leading-none">
-                    IZ FINANCE LAB
-                  </span>
-                  <span className="hidden sm:inline-block rounded-full bg-[#EEEAE1] border border-[#D5D0C5] px-2 py-0.5 text-[10px] font-display font-medium tracking-widest text-[#A28143] uppercase">
-                    ATELIER
-                  </span>
-                </div>
-                <span className="font-display text-[11px] tracking-[0.2em] text-[#68655D] uppercase block mt-1">
-                  VTUBER INVESTMENT ATELIER · 2026 ARCHIVE
-                </span>
-              </div>
+              <span className="font-display text-xl sm:text-2xl font-semibold tracking-[0.14em] text-[#181A18] leading-none">
+                IZ FINANCE LAB
+              </span>
             </button>
           </div>
 
