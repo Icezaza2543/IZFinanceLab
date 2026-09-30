@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   title: 'IZFinanceLab · Luxury Investment Atelier & Financial Archive',
   description:
     'ศูนย์รวมเครื่องคิดเลขการเงินและการลงทุน 9 หมวดหมู่หลัก พร้อมคลังคำศัพท์และหลักการประเมินมูลค่าระดับพรีเมียม',
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
