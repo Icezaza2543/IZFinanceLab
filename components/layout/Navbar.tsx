@@ -49,7 +49,7 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
           <div className="flex items-center gap-4">
             <button
               type="button"
-              onClick={() => onSelectTab('stocks')}
+              onClick={() => onSelectTab('financial-planning')}
               className="flex items-center gap-3 text-left group transition-opacity hover:opacity-95"
             >
               <Image

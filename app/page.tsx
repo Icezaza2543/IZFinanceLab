@@ -21,7 +21,7 @@ import type { InvestmentCategory } from '@/types/glossary';
 import { BookOpen } from 'lucide-react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<InvestmentCategory | 'glossary'>('stocks');
+  const [activeTab, setActiveTab] = useState<InvestmentCategory | 'glossary'>('financial-planning');
   const [isQuickSearchOpen, setIsQuickSearchOpen] = useState(false);
   const [isGlossaryModalOpen, setIsGlossaryModalOpen] = useState(false);
   const [selectedGlossaryTermId, setSelectedGlossaryTermId] = useState<string | null>(null);
