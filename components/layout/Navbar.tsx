@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import {
   PiggyBank,
   Compass,
@@ -51,15 +52,14 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
               onClick={() => onSelectTab('stocks')}
               className="flex items-center gap-3 text-left group transition-opacity hover:opacity-95"
             >
-              {/* Atelier Brand Monogram Emblem */}
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-[#1A221F] text-[#FBFAF7] border border-[#A28143]/40 shadow-sm">
-                <span className="font-display text-lg font-bold tracking-wider text-[#E9DEC7]">
-                  IZ
-                </span>
-                <span className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#A28143] text-[8px] text-white">
-                  ✦
-                </span>
-              </div>
+              <Image
+                src="/favicon.png"
+                alt="IZ Finance Lab"
+                width={44}
+                height={44}
+                className="h-11 w-11 shrink-0 rounded-xl"
+                priority
+              />
 
               <div>
                 <div className="flex items-center gap-2">
