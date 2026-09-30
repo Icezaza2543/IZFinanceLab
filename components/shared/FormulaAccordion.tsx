@@ -44,7 +44,7 @@ export function FormulaAccordion({
       {isOpen && (
         <div className="p-4 pt-1 border-t border-[#D5D0C5]/60 text-xs space-y-3 bg-[#FBFAF7]">
           <div className="p-3 rounded-lg bg-[#F5F3EE] border border-[#D5D0C5] font-numeric font-mono text-xs text-[#181A18] overflow-x-auto">
-            <span className="text-[#68655D] select-none font-display uppercase tracking-wider text-[11px] block mb-1">
+            <span className="text-[#68655D] select-none font-display uppercase tracking-wider text-xs block mb-1">
               FORMULA / MATHEMATICAL PRINCIPLE:
             </span>
             <span className="font-semibold text-[#181A18]">{formula}</span>

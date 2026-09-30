@@ -5,6 +5,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Comfortable reading sizes shared by every calculator and glossary. */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.6;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.65;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.75;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.4;
+
   --color-background: var(--canvas);
   --color-foreground: var(--primary-text);
 
@@ -106,8 +120,8 @@
     background-color: var(--canvas);
     color: var(--primary-text);
     min-width: 320px;
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: var(--text-base);
+    line-height: 1.75;
   }
 
   ::selection {

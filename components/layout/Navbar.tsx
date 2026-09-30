@@ -45,7 +45,7 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
 
       <div className="mx-auto max-w-[1340px] px-4 sm:px-6 lg:px-8">
         {/* Masthead Header: Brand Identity + Search + Glossary */}
-        <div className="flex h-20 items-center justify-between gap-4">
+        <div className="flex min-h-20 flex-wrap items-center justify-between gap-3 py-4">
           <div className="flex items-center gap-4">
             <button
               type="button"
@@ -77,7 +77,7 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
               <Search className="w-3.5 h-3.5 text-[#A28143]" />
               <span className="hidden sm:inline font-ui">ค้นหาเครื่องคิดเลข & คำศัพท์</span>
               <span className="sm:hidden font-ui">ค้นหา</span>
-              <kbd className="hidden md:inline-block rounded bg-[#EEEAE1] px-1.5 py-0.5 font-numeric text-[10px] font-medium text-[#68655D] border border-[#D5D0C5]">
+              <kbd className="hidden md:inline-block rounded bg-[#EEEAE1] px-1.5 py-0.5 font-numeric text-xs font-medium text-[#68655D] border border-[#D5D0C5]">
                 ⌘K
               </kbd>
             </button>
@@ -116,7 +116,7 @@ export function Navbar({ activeTab, onSelectTab, onOpenQuickSearch }: NavbarProp
                     : 'text-[#68655D] hover:bg-[#EEEAE1] hover:text-[#181A18] font-normal'
                 }`}
               >
-                <span className={`font-display text-[11px] ${isActive ? 'text-[#E9DEC7]' : 'text-[#A28143]/80'}`}>
+                <span className={`font-display text-xs ${isActive ? 'text-[#E9DEC7]' : 'text-[#A28143]/80'}`}>
                   0{idx + 1}
                 </span>
                 <span className="font-ui">{cat.nameTh}</span>

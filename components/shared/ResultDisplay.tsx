@@ -48,9 +48,9 @@ export function ResultDisplay({
       />
 
       <div>
-        <div className="flex items-center justify-between text-xs font-display tracking-[0.2em] uppercase text-[#C8CCC6]/80 mb-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-display tracking-[0.2em] uppercase text-[#C8CCC6]/80 mb-3">
           <span>{badgeText}</span>
-          <span className="text-[10px] tracking-widest text-[#A28143]">· ATELIER ·</span>
+          <span className="text-xs tracking-widest text-[#A28143]">· ATELIER ·</span>
         </div>
 
         <div className="border-b border-white/10 pb-5">
@@ -105,14 +105,14 @@ export function ResultDisplay({
       </div>
 
       {metrics && metrics.length > 0 && (
-        <dl className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 pt-4 border-t border-white/10">
+        <dl className="mt-5 grid grid-cols-1 min-[400px]:grid-cols-2 gap-3 xl:grid-cols-3 pt-4 border-t border-white/10">
           {metrics.map((m, idx) => (
-            <div key={idx} className="p-3 rounded-xl bg-[#262D2A]/80 border border-white/5">
-              <dt className="text-[11px] font-medium leading-tight text-[#C8CCC6]/80 truncate">
+            <div key={idx} className="min-w-0 p-3.5 rounded-xl bg-[#262D2A]/80 border border-white/5">
+              <dt className="text-xs font-medium leading-relaxed text-[#C8CCC6]/80 break-words">
                 {m.label}
               </dt>
               <dd
-                className={`font-numeric mt-1.5 text-base font-semibold ${
+                className={`font-numeric mt-2 text-base font-semibold break-words ${
                   m.highlight ? 'text-[#E9DEC7]' : 'text-[#FBFAF7]'
                 }`}
               >

@@ -171,7 +171,7 @@ export function GlossaryModal({
                         {term.termTh}
                       </span>
                       {term.abbreviation && (
-                        <span className="px-1.5 py-0.5 rounded bg-[#EEEAE1] border border-[#D5D0C5] text-[#A28143] font-numeric text-[10px] font-semibold">
+                        <span className="px-1.5 py-0.5 rounded bg-[#EEEAE1] border border-[#D5D0C5] text-[#A28143] font-numeric text-xs font-semibold">
                           {term.abbreviation}
                         </span>
                       )}
@@ -191,7 +191,7 @@ export function GlossaryModal({
               <div className="space-y-5">
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-md bg-[#EEEAE1] text-[#A28143] border border-[#D5D0C5] text-[11px] font-display tracking-widest uppercase">
+                    <span className="px-2.5 py-0.5 rounded-md bg-[#EEEAE1] text-[#A28143] border border-[#D5D0C5] text-xs font-display tracking-widest uppercase">
                       {CATEGORIES.find((c) => c.id === activeTerm.category)?.nameTh}
                     </span>
                     {activeTerm.abbreviation && (

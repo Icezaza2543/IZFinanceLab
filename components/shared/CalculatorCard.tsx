@@ -31,7 +31,7 @@ export function CalculatorCard({
   return (
     <article
       id={id}
-      className="rounded-2xl border border-[#D5D0C5] bg-[#FBFAF7] p-6 sm:p-8 shadow-[0_4px_24px_rgba(24,26,24,0.03)] transition-all"
+      className="rounded-2xl border border-[#D5D0C5] bg-[#FBFAF7] p-4 sm:p-8 shadow-[0_4px_24px_rgba(24,26,24,0.03)] transition-all"
     >
       <header className="mb-6 flex flex-wrap items-start justify-between gap-3 border-b border-[#D5D0C5]/70 pb-5">
         <div className="max-w-2xl">
@@ -79,8 +79,8 @@ export function CalculatorCard({
       </header>
 
       <div className="grid items-stretch gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-        <div className="space-y-5">{children}</div>
-        <div className="flex flex-col justify-between">{resultNode}</div>
+        <div className="min-w-0 space-y-6">{children}</div>
+        <div className="min-w-0 flex flex-col justify-between">{resultNode}</div>
       </div>
 
       {chartNode && <div className="mt-6">{chartNode}</div>}

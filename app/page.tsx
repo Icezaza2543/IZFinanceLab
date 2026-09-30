@@ -156,10 +156,10 @@ export default function Home() {
           <p className="font-ui font-medium max-w-2xl mx-auto text-[#68655D] leading-relaxed">
             ศูนย์รวมเครื่องคิดเลขการเงินและการลงทุน 9 หมวดหมู่: การวางแผนการเงิน · หลักการลงทุน · หุ้น · อนุพันธ์ · กองทุนรวม · ตราสารหนี้ · DW · ต่างประเทศ · สินทรัพย์ทางเลือก
           </p>
-          <p className="font-display text-[11px] tracking-widest text-[#A28143] uppercase pt-1">
+          <p className="font-display text-xs tracking-widest text-[#A28143] uppercase pt-1">
             EDITION 2026 · PRECISION IN METRICS · CHARACTER IN DESIGN
           </p>
-          <p className="text-[11px] text-[#68655D]/70 font-ui pt-1">
+          <p className="text-xs text-[#68655D]/70 font-ui pt-1">
             * ตัวเลขและการคำนวณทั้งหมดจัดทำขึ้นเพื่อการศึกษาและการวางแผนเบื้องต้น ไม่ถือเป็นคำแนะนำหรือการชี้ชวนการลงทุน
           </p>
         </div>

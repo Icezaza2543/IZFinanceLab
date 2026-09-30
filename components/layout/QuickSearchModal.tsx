@@ -177,7 +177,7 @@ export function QuickSearchModal({
                 }}
                 className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-[#EEEAE1]/80 text-left transition-colors group cursor-pointer"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex min-w-0 items-center gap-3">
                   <div
                     className={`p-2 rounded-xl text-white ${
                       item.type === 'calculator' ? 'bg-[#1A221F]' : 'bg-[#A28143]'
@@ -189,12 +189,12 @@ export function QuickSearchModal({
                       <BookOpen className="w-4 h-4 text-white" />
                     )}
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="font-semibold text-sm text-[#181A18] group-hover:text-[#A28143] transition-colors font-ui">
                         {item.titleTh}
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#EEEAE1] text-[#68655D] font-medium border border-[#D5D0C5]">
+                      <span className="text-xs px-2 py-0.5 rounded-md bg-[#EEEAE1] text-[#68655D] font-medium border border-[#D5D0C5]">
                         {item.categoryNameTh}
                       </span>
                     </div>
@@ -214,9 +214,9 @@ export function QuickSearchModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-3.5 border-t border-[#D5D0C5] bg-[#F5F3EE] text-xs text-[#68655D] flex items-center justify-between">
+        <div className="p-3.5 border-t border-[#D5D0C5] bg-[#F5F3EE] text-xs text-[#68655D] flex flex-wrap gap-2 items-center justify-between">
           <span className="font-ui">กด <kbd className="rounded bg-[#EEEAE1] px-1.5 py-0.5 border border-[#D5D0C5] font-numeric">ESC</kbd> เพื่อปิด</span>
-          <span className="font-display tracking-widest text-[#A28143] text-[11px] uppercase font-semibold">
+          <span className="font-display tracking-widest text-[#A28143] text-xs uppercase font-semibold">
             IZ ATELIER ARCHIVE · 25+ CALCULATORS
           </span>
         </div>

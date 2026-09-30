@@ -99,7 +99,7 @@ export function GlossaryView({ onSelectCalculator }: GlossaryViewProps) {
                     : 'bg-[#EEEAE1] text-[#68655D] hover:bg-[#D5D0C5]'
                 }`}
               >
-                <span className={`font-display text-[11px] ${selectedCategory === cat.id ? 'text-[#E9DEC7]' : 'text-[#A28143]'}`}>
+                <span className={`font-display text-xs ${selectedCategory === cat.id ? 'text-[#E9DEC7]' : 'text-[#A28143]'}`}>
                   0{idx + 1}
                 </span>
                 <span className="font-ui">{cat.nameTh}</span>
@@ -129,7 +129,7 @@ export function GlossaryView({ onSelectCalculator }: GlossaryViewProps) {
                 <div className="space-y-3.5">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="inline-block px-2.5 py-0.5 rounded-md bg-[#EEEAE1] text-[#A28143] border border-[#D5D0C5] text-[10px] font-display uppercase tracking-wider mb-1 font-semibold">
+                      <span className="inline-block px-2.5 py-0.5 rounded-md bg-[#EEEAE1] text-[#A28143] border border-[#D5D0C5] text-xs font-display uppercase tracking-wider mb-1 font-semibold">
                         {cat?.nameTh}
                       </span>
                       <h3 className="text-xl font-semibold text-[#181A18] leading-tight font-ui">
@@ -153,7 +153,7 @@ export function GlossaryView({ onSelectCalculator }: GlossaryViewProps) {
 
                   {term.formula && (
                     <div className="p-3.5 rounded-xl bg-[#F5F3EE] border border-[#D5D0C5] space-y-1.5">
-                      <div className="flex items-center justify-between text-[11px] font-display uppercase tracking-widest text-[#68655D]">
+                      <div className="flex items-center justify-between text-xs font-display uppercase tracking-widest text-[#68655D]">
                         <span>FORMULA</span>
                         <button
                           type="button"

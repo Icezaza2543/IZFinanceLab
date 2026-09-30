@@ -201,7 +201,7 @@ export function TimeSeriesChart({
                   x={referenceX.x}
                   stroke="#68655D"
                   strokeDasharray="4 4"
-                  label={{ value: referenceX.label, position: 'top', fill: '#68655D', fontSize: 12 }}
+                  label={{ value: referenceX.label, position: 'top', fill: '#68655D', fontSize: 14 }}
                 />
               )}
               <ChartTooltip
